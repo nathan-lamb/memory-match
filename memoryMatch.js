@@ -1,6 +1,8 @@
 //initialise grid
 
 const grid = [[1],[2],[3],[4],[5],[6],[7],[8],[9],[10],[11],[12],[13],[14],[15],[16]];
+const clickedNum = [];
+const matchedCells = [];
 
 const cellNumChooser = () => {
   return Math.floor(Math.random() * (17 - 1) + 1)
@@ -47,17 +49,47 @@ const assignPartner = (randomNum) => {
 
 assignNumber(grid);
 
-//hover to show number
-
 Array.from(document.getElementsByClassName("cell")).forEach((cell) => {
   cell.addEventListener("click", function(e) {
     if (e.target.className = "cell") {
       e.target.style.backgroundColor = "white";
-
-      cell.addEventListener("mouseleave", function () {
-        if (e.target.className = "cell") {
-          e.target.style.backgroundColor = "black";
-        }})
+      addClickedNum(e);
+      checkNumbers();
     }});
 });
 
+const addClickedNum = (e) => {
+  if (clickedNum.length !== 4) {
+    clickedNum.push(grid[parseInt(e.target.id) - 1][0]);
+    clickedNum.push(grid[parseInt(e.target.id) - 1][1]);
+  }
+};
+
+const checkNumbers = () => {
+  if (clickedNum.length === 4) {
+    if (clickedNum[1] !== clickedNum[3]) {
+      setTimeout(resetIncorrect, 1500);
+    } else {
+      matchedCells.push(clickedNum[0]);
+      matchedCells.push(clickedNum[2]);
+
+      checkWin()
+    }
+  }
+};
+
+const resetIncorrect = () => {
+  document.getElementById(clickedNum[0].toString()).style.backgroundColor = "black";
+  document.getElementById(clickedNum[2].toString()).style.backgroundColor = "black";
+  clickedNum.pop();
+  clickedNum.pop();
+  clickedNum.pop();
+  clickedNum.pop();
+
+};
+
+const checkWin = () => {
+  if (matchedCells.length === 16){
+    alert("You win!")
+  }
+};
