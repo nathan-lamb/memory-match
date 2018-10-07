@@ -9,7 +9,16 @@ const cellNumChooser = () => {
 };
 
 const randomNumChooser = () => {
-  return Math.floor(Math.random() * (100 - 1) + 1);
+  const randomNumber = Math.floor(Math.random() * (100 - 1) + 1);
+
+  grid.map((cell) => {
+    if (cell.length === 2) {
+      if (cell[1] === randomNumber) {
+        randomNumChooser()
+      }
+    }
+  });
+  return randomNumber
 };
 
 const assignNumber = (grid) => {
